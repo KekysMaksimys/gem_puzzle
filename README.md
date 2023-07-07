@@ -1,2 +1,2 @@
 # kekysmaksimys-JSFE2022Q3
-Private repository for @kekysmaksimys
+Private repository for @kekysmaksimys.
