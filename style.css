@@ -1,0 +1,125 @@
+:root{
+    --width: 400px;
+    --height: 400px;
+}
+
+body{
+    background-color: #462A49;
+}
+.all{
+    display: grid;
+    margin: auto;
+    width: var(--width);
+    margin-top: 300px;
+}
+
+.top__buttons{
+    width: 400px;
+    height: 30px;
+    display: grid;
+    justify-self: center;
+    grid-template-columns: 1.5fr 50px 50px 1fr;
+    grid-column-gap: 20px;
+}
+
+.buttons{
+    background-color: #d6ffb7;
+    border: none;
+    border-radius: 5px;
+}
+
+.load__button{
+    background-color: #d6ffb7;
+    border: none;
+    border-radius: 5px;
+}
+
+.moves__time{
+    margin-top: 15px;
+    display: grid;
+    grid-template-rows: 30px;
+    grid-template-columns: 2fr 1fr 50px;
+    justify-self: center;
+    grid-column-gap: 10px;
+}
+
+.game {
+    width: var(--width);
+    height: var(--height);
+    display: grid;
+    justify-self: center;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-flow: row;
+}
+
+.game__cell{
+    display: flex;
+    background-color: #ffc15e;
+    border-radius: 25px;
+    font-size: 25px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.7s;
+}
+
+.zero__cell{
+    opacity: 0;
+}
+
+.frame__size{
+    margin-top: 10px;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
+
+.other__size{
+    margin: auto;
+    margin-top: 10px;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    grid-template-columns: 1fr repeat(6, 40px);
+    grid-column-gap: 5px;
+}
+
+.txt{
+    color: white;
+}
+
+.size__buttons{
+    background-color: #FFA82D;
+    border: none;
+    border-radius: 5px;
+}
+
+button{
+    cursor: pointer;
+}
+
+.hide{
+    opacity: 0.4;
+    
+}
+
+.solved{
+    position: relative;
+    top: 0;
+    left: 0;
+    margin: auto;
+    width: var(--width);
+    height: var(--height);
+    visibility: hidden;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    background-color: #F5FF90;
+    border-radius: 10px;
+}
+
+@media screen and (max-width:502px) {
+    .top__buttons{
+        width: 300px;
+    }
+}
