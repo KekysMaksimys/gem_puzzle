@@ -1,3 +1,4 @@
+//randomize function for different games
 function randomize(range, count){
     let nums = new Set();
     while (nums.size < count) {
@@ -60,6 +61,7 @@ movesTime.append(movesTxt, time, stopwatch);
 let game = document.createElement('div');
 game.className = 'game';
 
+//random to first game
 let random = randomize(16, 16);
 for(let i = 0; i < 16; i++){
     if(random[i] == 0){
@@ -71,7 +73,6 @@ for(let i = 0; i < 16; i++){
         let cell = document.createElement('div');
         cell.className = 'game__cell';
         cell.innerText = `${random[i]}`;
-        // cell.id = random[i] + 64;
         cell.draggable = false;
         game.append(cell); 
     }
@@ -125,6 +126,8 @@ body.append(div, solvedSection);
 
 
 let root = document.querySelector(':root');
+
+//different game size take number of cells and make game
 const changingButtonSize = e => {
     let elem;
     if(e === 1){
@@ -132,37 +135,25 @@ const changingButtonSize = e => {
     } else {
         elem = e;
     }
-    // switch(e.target.id){
-    //     case undefined:
-    //         elem = 9;
-    //         break;
-    //     case 'shuffle':
-    //         elem = game.children.length;
-    //         break;
-    //     default:
-    //         elem = e.target.id;
-    //         break;
-    // }
     while(game.firstChild){
         game.removeChild(game.lastChild);
     }
     movesTxt.innerHTML = 'Moves: 0';
-    root.style.setProperty('--width', `${Math.sqrt(elem) * 100}px`);
+    root.style.setProperty('--width', `${Math.sqrt(elem) * 100}px`);//write in root side numbers of cells 
     root.style.setProperty('--height', `${Math.sqrt(elem) * 100}px`);
-    document.getElementsByClassName('game')[0].style.gridTemplateColumns = `repeat(${Math.sqrt(elem)}, 1fr)`;
+    document.getElementsByClassName('game')[0].style.gridTemplateColumns = `repeat(${Math.sqrt(elem)}, 1fr)`;//make game table
     document.getElementById('frametxt').innerText = `Frame size: ${Math.sqrt(elem)}x${Math.sqrt(elem)}`;
     let random = randomize(+elem, +elem);
     for(let i = 0; i < +elem; i++){
         if(random[i] == 0){
             let cell = document.createElement('div');
             cell.className = 'zero__cell';
-            cell.innerText = `${random[i]}`;
+            cell.innerText = `${random[i]}`;//write 0 from random array
             game.append(cell); 
         } else {
             let cell = document.createElement('div');
             cell.className = 'game__cell';
-            cell.innerText = `${random[i]}`;
-            // cell.id = random[i] + 64;
+            cell.innerText = `${random[i]}`;//write number from random array
             cell.draggable = false;
             game.append(cell); 
         }
@@ -175,13 +166,14 @@ const changingButtonSize = e => {
     interval = setInterval(stopWatch, 1000);
 }
 
-let zeroIndex;
+let zeroIndex;//empty cell in game childrens
 
+//set dragging to neardy empty cell
 function setDraging(){
     let gameArr = Array.from(document.getElementsByClassName('game')[0].childNodes);
     let game = document.getElementsByClassName('game')[0].childNodes;
     let arrayLine = Math.sqrt(gameArr.length);
-    zeroIndex = gameArr.findIndex((elem) => elem.innerHTML == '0');
+    zeroIndex = gameArr.findIndex((elem) => elem.innerHTML == '0');//find empty cell
     let zeroInLine = zeroIndex;
     while(zeroInLine < gameArr.length){
         zeroInLine += arrayLine;
@@ -274,7 +266,6 @@ let countingMoves = 0;
 let interval = setInterval(stopWatch, 1000);
 let seconds = 0;
 let minutes = 0;
-let start;
 
 function dragStart(e, elem){
     draggableElementIndex = [...gameSection].findIndex((a) => a == elem);
@@ -288,14 +279,18 @@ function dragEnd(e){
     e.target.classList.remove('hide');
 }
 
+//check if user can drop game cell
 function dragOverChecking(){
     allowDrop = true;
     event.preventDefault();
 }
+
+//drag drop ends
 function dragLeaving(){
     allowDrop = false;
 } 
 
+//change sliding cell to empty cell
 function drop(e, elem) {
     if(allowDrop){
         elem.className = draggableElement.className;
@@ -315,6 +310,7 @@ function drop(e, elem) {
     }   
 }
 
+//set dragging to cell near empty cell
 function slideToEmpty(event){
     let arr = [...event.target.parentNode.childNodes];
     let elemIndex = arr.findIndex((elem) => elem.innerHTML === event.target.innerHTML);
@@ -334,6 +330,7 @@ function slideToEmpty(event){
     checkingGameSolve();
 }
 
+//add for every game cell functions
 function addEventsToGameCell(){
     gameCells = document.querySelectorAll(".game__cell");
     gameSection = document.querySelectorAll(".game")[0].childNodes;
@@ -350,6 +347,7 @@ function addEventsToGameCell(){
     })
 }
 
+//stop watch game
 function stopWatch(){
     seconds++
     if(seconds < 10){
@@ -366,6 +364,7 @@ function stopWatch(){
     }
 }
 
+//resize game 1 time when display width little
 let windowChecking = (function(){
     let valid = false;
     return function(){
@@ -376,16 +375,18 @@ let windowChecking = (function(){
     }
 })
 
+//sorting solved game
 function CheckSolved(){
     let size = game.children.length;
     let gameArr = Array.from(game.children);
     gameArr.sort((a,b) => a.innerText - b.innerText);
-    let zero = gameArr.shift();
+    let zero = gameArr.shift(); // delete first argument (empty cell)
     gameArr.push(zero);
     game.replaceChildren(...gameArr);
     checkingGameSolve()
 }
 
+//check game solved and notificate user
 function checkingGameSolve(){
     let solved = false;
     let arr = [...gameSection];
@@ -409,6 +410,7 @@ function checkingGameSolve(){
     }
 }
 
+//save game to local storage
 function saveGame(){
     let savedGame = game.innerHTML;
     let gameKey = 'game';
@@ -425,9 +427,9 @@ function saveGame(){
         localStorage.setItem(sizeKey, gameSize);
     }
     setDraging()
-    console.log(movesTime.innerHTML)
 }
 
+//upload game from localstorage
 function uploadGame(){
     if(localStorage.getItem('game') != null){
         game.style = '';
@@ -444,23 +446,28 @@ function uploadGame(){
     }
 }
 
+//add resize buttons events
 document.getElementById('9').addEventListener ("click", () => changingButtonSize(9));
 document.getElementById('16').addEventListener ("click", () => changingButtonSize(16));
 document.getElementById('25').addEventListener ("click", () => changingButtonSize(25));
 document.getElementById('36').addEventListener ("click", () => changingButtonSize(36));
 document.getElementById('49').addEventListener ("click", () => changingButtonSize(49));
 document.getElementById('64').addEventListener ("click", () => changingButtonSize(64));
+
+//add shuffle button events
 document.getElementById('shuffle').addEventListener ("click", () => changingButtonSize(game.childNodes.length));
 document.getElementById('shuffle').addEventListener ("click", () => {
-    clearInterval(interval);
+    clearInterval(interval);//clear interval
     minutes = 0;
     seconds = 0;
-    interval = setInterval(stopWatch, 1000);
+    interval = setInterval(stopWatch, 1000); // start stopwatch
     solvedSection.style.visibility = "hidden";
 });
 document.querySelector(".load__button").addEventListener("click", uploadGame);
 document.getElementById('save').addEventListener ("click", saveGame);
 document.getElementById('solve').addEventListener ("click", CheckSolved);
+
+//checking samll displays
 window.onresize = windowChecking();
 
 setDraging();
